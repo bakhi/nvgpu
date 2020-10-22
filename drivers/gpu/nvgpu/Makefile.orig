@@ -375,21 +375,3 @@ nvgpu-y += \
 	lpwr/rppg.o \
 	lpwr/lpwr.o \
 	gv100/clk_gv100.o
-
-KDIR ?= /lib/modules/$(shell uname -r)/build/
-ccflags-y += -DCONFIG_GK20A_TRACE_PRINTK
-
-# we get the symbols from modules using KBUILD_EXTRA_SYMBOLS to prevent warnings about unknown functions
-all:
-	$(MAKE) -C $(KDIR) M=$(CURDIR) EXTRA_CFLAGS=" \
-	-I$(CURDIR)/include \
-	-I$(CURDIR) \
-	-I$(CURDIR)/../../../../nvidia/include \
-	-I$(CURDIR)/../../../../kernel-4.9/arch/arm/mach-tegra \
-	-I$(CURDIR)/../../../../kernel-4.9/drivers \
-	-I$(CURDIR)/../../../../kernel-4.9/drivers/devfreq \
-	$(SCONS_CFLAGS)" $(SCONS_CONFIGS) KBUILD_EXTRA_SYMBOLS="$(EXTRA_SYMBOLS)" modules
-
-clean:
-	$(MAKE) -C $(KDIR) M=$(CURDIR) clean
-
