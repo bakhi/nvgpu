@@ -562,6 +562,7 @@ static int nvgpu_submit_channel_gpfifo(struct channel_gk20a *c,
 	}
 	gk20a_fifo_profile_snapshot(profile, PROFILE_APPEND);
 
+    nvgpu_udelay(50); // jin
 	g->ops.fifo.userd_gp_put(g, c);
 
 	/* No hw access beyond this point */

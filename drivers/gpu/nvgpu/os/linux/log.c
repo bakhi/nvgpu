@@ -72,10 +72,14 @@ static void __nvgpu_really_print_log(u32 trace, const char *gpu_name,
 	const char *log_type = log_types[type];
 
 #ifdef CONFIG_GK20A_TRACE_PRINTK
+	printk("CONFIG_GK20A_TRACE_PRINTK");	// jin
+	printk(LOG_FMT, name, func_name, line, log_type, log);  // jin
 	if (trace)
 		return __nvgpu_trace_printk_log(trace, name, func_name,
 						line, log_type, log);
 #endif
+	printk("NO CONFIG_GK20A_TRACE_PRINTK"); // jin
+	printk(LOG_FMT, name, func_name, line, log_type, log);  // jin
 	switch (type) {
 	case NVGPU_DEBUG:
 		/*

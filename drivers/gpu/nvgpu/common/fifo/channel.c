@@ -50,6 +50,8 @@
 #include "gk20a/dbg_gpu_gk20a.h"
 #include "gk20a/fence_gk20a.h"
 
+#include "jin/log.h"
+
 static void free_channel(struct fifo_gk20a *f, struct channel_gk20a *c);
 static void gk20a_channel_dump_ref_actions(struct channel_gk20a *c);
 
@@ -753,6 +755,7 @@ struct channel_gk20a *gk20a_open_new_channel(struct gk20a *g,
 	nvgpu_atomic_set(&ch->ref_count, 1);
 	nvgpu_smp_wmb();
 
+	DD("chid: %u, is_privileged: %d, is_deterministic: %d", ch->chid, ch->is_privileged_channel, ch->deterministic);
 	return ch;
 }
 

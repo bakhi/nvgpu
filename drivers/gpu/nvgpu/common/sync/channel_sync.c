@@ -37,6 +37,8 @@
 #include "gk20a/fence_gk20a.h"
 #include "gk20a/mm_gk20a.h"
 
+#include "jin/log.h"
+
 #ifdef CONFIG_TEGRA_GK20A_NVHOST
 
 struct nvgpu_channel_sync_syncpt {
@@ -154,12 +156,14 @@ static int channel_sync_syncpt_incr_common(struct nvgpu_channel_sync *s,
 
 	nvgpu_log(c->g, gpu_dbg_info, "sp->id %d gpu va %llx",
 				sp->id, sp->syncpt_buf.gpu_va);
+
 	c->g->ops.fifo.add_syncpt_incr_cmd(c->g, wfi_cmd,
 			incr_cmd, sp->id, sp->syncpt_buf.gpu_va);
 
 	thresh = nvgpu_nvhost_syncpt_incr_max_ext(sp->nvhost_dev, sp->id,
 			c->g->ops.fifo.get_syncpt_incr_per_release());
 
+	DD("sp->id %d gpu va %llx thresh %u", sp->id, sp->syncpt_buf.gpu_va, thresh);	// jin
 	if (register_irq) {
 		struct channel_gk20a *referenced = gk20a_channel_get(c);
 
